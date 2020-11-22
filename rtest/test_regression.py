@@ -433,7 +433,6 @@ def test_1865():
     # fdp should not crash when processing this file
     subprocess.check_call(['fdp', '-o', os.devnull, input])
 
-@pytest.mark.xfail(strict=True) # FIXME
 @pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
 def test_1876():
     '''
@@ -454,7 +453,6 @@ def test_1876():
     # we should not see any internal names like '%3'
     assert '%' not in output, 'internal name in fdp output'
 
-@pytest.mark.xfail(strict=True) # FIXME
 @pytest.mark.skipif(shutil.which('fdp') is None, reason='fdp not available')
 def test_1877():
     '''
