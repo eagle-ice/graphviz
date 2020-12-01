@@ -2,6 +2,7 @@ stages:
     - source
     - build
     - test
+    - upload
     - deploy
 
 portable-source:
@@ -556,6 +557,15 @@ macos-cmake-test:
           artifacts: true
     tags:
         - macos
+
+upload:
+    stage: upload
+    image: curlimages/curl-latest
+    when: manual
+    rules:
+        - if:
+            ${CI_COMMIT_TAG}
+    script: ci/upload.sh
 
 deployment:
     stage: deploy
