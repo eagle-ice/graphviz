@@ -561,6 +561,8 @@ macos-cmake-test:
 upload:
     stage: upload
     image: curlimages/curl:latest
+    before_script:
+        - apt-get install bash
     when: manual
     except:
         - tags
