@@ -560,11 +560,10 @@ macos-cmake-test:
 
 upload:
     stage: upload
-    image: curlimages/curl-latest
-    when: manual
-    #rules:
-    #    - if:
-    #        ${CI_COMMIT_TAG}
+    image: curlimages/curl:latest
+    rules:
+        - if:
+            ${CI_COMMIT_TAG}
     script: ci/upload.sh
 
 deployment:
