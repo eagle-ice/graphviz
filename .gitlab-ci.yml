@@ -562,8 +562,7 @@ upload:
     stage: upload
     image: curlimages/curl:latest
     rules:
-        - if:
-            ${CI_COMMIT_TAG}
+        - if: ${CI_COMMIT_TAG}
     script: ci/upload.sh
 
 deployment:
