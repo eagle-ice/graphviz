@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# steps for uploading build asserts for a release (see ../.gitlab-ci.yml)
+# steps for uploading build assets for a release (see ../.gitlab-ci.yml)
 #
 # This is based on Gitlab’s generic package example,
 # https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-assets-as-generic-package
@@ -19,10 +19,12 @@ set -o pipefail
 # echo commands
 set -x
 
-# install Curl if we do not already have it
-if ! which curl &>/dev/null; then
-  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
-fi
+#install dependencies
+for dep in curl jq; do
+  if ! which ${dep} &>/dev/null; then
+    env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ${dep}
+  fi
+done
 
 export GV_VERSION=$(cat VERSION)
 export COLLECTION=$(cat COLLECTION)
@@ -43,17 +45,21 @@ chmod -R o-rwx Packages
 chmod -R g-wx Packages
 chmod -R g+X Packages
 
-for i in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}; do
+for i in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; do
   curl --silent \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${i}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${i##*/}" | tee curl-log.log
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${i##*/}" | tee response.json
+  #jq --exit-status '.ok' response.json
 done
 
-md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
-for i in graphviz-"${GV_VERSION}".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
+#md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
+md5sum graphviz-"$(cat VERSION)".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
+#for i in graphviz-"${GV_VERSION}".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
+for i in graphviz-"$(cat VERSION)".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
   curl --silent \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${i}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${i}" | tee curl-log.log
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${i}" | tee response.json
+  #jq --exit-status '.ok' response.json
 done
