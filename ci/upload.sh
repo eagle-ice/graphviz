@@ -46,31 +46,34 @@ chmod -R o-rwx Packages
 chmod -R g-wx Packages
 chmod -R g+X Packages
 
-for i in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; do
+for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; do
 
   # Gitlab upload file_name field only allows letters, numbers, dot, dash, and
   # underscore
-  i=$(printf '%s' "${i}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
+  dst=$(printf '%s' "${src##*/}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
   curl --silent \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-       --upload-file "${i}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${i##*/}" | tee response.json
+       --upload-file "${src}" \
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
+  # FIXME
   #jq --exit-status '.ok' response.json
 done
 
+# FIXME
 #md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
 md5sum graphviz-"$(cat VERSION)".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
-#for i in graphviz-"${GV_VERSION}".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
-for i in graphviz-"$(cat VERSION)".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
+#for src in graphviz-"${GV_VERSION}".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
+for src in graphviz-"$(cat VERSION)".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5; do
 
   # Gitlab upload file_name field only allows letters, numbers, dot, dash, and
   # underscore
-  i=$(printf '%s' "${i}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
+  dst=$(printf '%s' "${src}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
   curl --silent \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-       --upload-file "${i}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${i}" | tee response.json
+       --upload-file "${src}" \
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${dst}" | tee response.json
+  # FIXME
   #jq --exit-status '.ok' response.json
 done

@@ -560,11 +560,12 @@ macos-cmake-test:
 
 upload:
     stage: upload
+    # do not re-run this job for new Git tags of previously seen commits
     except:
         - tags
-    #rules:
-    #    - if: $CI_COMMIT_TAG
+    # FIXME
     script: ci/upload.sh
+    # do not run this job for MRs, developer’s forks, etc.
     #only:
     #    - master@graphviz/graphviz
 
