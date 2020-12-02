@@ -19,6 +19,11 @@ set -o pipefail
 # echo commands
 set -x
 
+# install Curl if we do not already have it
+if ! which curl &>/dev/null; then
+  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
+fi
+
 export GV_VERSION=$(cat VERSION)
 export COLLECTION=$(cat COLLECTION)
 

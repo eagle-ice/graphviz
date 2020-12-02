@@ -560,15 +560,14 @@ macos-cmake-test:
 
 upload:
     stage: upload
-    image: curlimages/curl:latest
-    before_script:
-        - apt-get install bash
     when: manual
     except:
         - tags
     #rules:
     #    - if: $CI_COMMIT_TAG
     script: ci/upload.sh
+    #only:
+    #    - master@graphviz/graphviz
 
 deployment:
     stage: deploy
