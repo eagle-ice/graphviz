@@ -52,7 +52,7 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; d
   # underscore
   dst=$(printf '%s' "${src##*/}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
-  curl --silent \
+  curl --silent --include --verbose \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${src}" \
                      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
@@ -70,7 +70,7 @@ for src in graphviz-"$(cat VERSION)".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5;
   # underscore
   dst=$(printf '%s' "${src}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
-  curl --silent \
+  curl --silent --include --verbose \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${src}" \
                      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${dst}" | tee response.json
