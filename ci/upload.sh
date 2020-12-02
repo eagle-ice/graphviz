@@ -20,6 +20,7 @@ set -o pipefail
 set -x
 
 #install dependencies
+env DEBIAN_FRONTEND=noninteractive apt-get update -y
 for dep in curl jq; do
   if ! which ${dep} &>/dev/null; then
     env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ${dep}
