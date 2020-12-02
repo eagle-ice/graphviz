@@ -560,7 +560,6 @@ macos-cmake-test:
 
 upload:
     stage: upload
-    when: manual
     except:
         - tags
     #rules:
