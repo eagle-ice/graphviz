@@ -70,6 +70,6 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/* \
                      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
 
   # check the upload succeeded
-  jq --exit-status '.message' response.json | grep -q '201 Created'
+  tail -1 response.json | jq --exit-status '.message' | grep -q '201 Created'
 
 done
