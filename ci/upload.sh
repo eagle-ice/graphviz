@@ -59,9 +59,9 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; d
   dst=$(printf '%s' "${src##*/}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
   curl --silent --include --verbose \
-       --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+       --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${src}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/releases/${GV_VERSION}/${dst}" | tee response.json
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
   # FIXME
   #jq --exit-status '.ok' response.json
 done
@@ -77,9 +77,9 @@ for src in graphviz-"$(cat VERSION)".tar.gz graphviz-"${GV_VERSION}".tar.gz.md5;
   dst=$(printf '%s' "${src}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
   curl --silent --include --verbose \
-       --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+       --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${src}" \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/releases/${GV_VERSION}/portable_source/${dst}" | tee response.json
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/portable_source/${dst}" | tee response.json
   # FIXME
   #jq --exit-status '.ok' response.json
 done
