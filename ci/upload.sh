@@ -48,6 +48,11 @@ fi
 # FIXME
 export GV_VERSION=1.0.0
 
+echo 'hello world' >graphviz-releases.${GV_VERSION}.tar.gz
+curl --silent --include --verbose --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+       --upload-file graphviz-releases.${GV_VERSION}.tar.gz \
+                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/graphviz-releases.${GV_VERSION}.tar.gz" | tee response.json
+
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
 chmod -R g+X Packages
