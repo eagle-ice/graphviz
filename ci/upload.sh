@@ -25,7 +25,7 @@ if [ -e /etc/os-release ]; then
   cat /etc/os-release
 fi
 
-#install dependencies
+# install dependencies
 env DEBIAN_FRONTEND=noninteractive apt-get update -y
 for dep in curl jq; do
   if ! which ${dep} &>/dev/null; then
@@ -39,7 +39,7 @@ export COLLECTION=$(cat COLLECTION)
 # Gitlab’s generic package publishing API only supports a specific version
 # format, so we can only upload releases
 if ! egrep -q '^\d+\.\d+\.\d+$' VERSION; then
-  printf '%s is not a release; skipping upload\n' "${GV_VERSION}" >&2
+  printf '%s is not a release; skipping upload\n' "${GV_VERSION}"
   # FIXME: currently it is not possible to programmatically mark this job as
   # skipped, https://gitlab.com/gitlab-org/gitlab/-/issues/16733
   # exit 0
@@ -47,11 +47,6 @@ fi
 
 # FIXME
 export GV_VERSION=1.0.0
-
-echo 'hello world' >graphviz-releases.${GV_VERSION}.tar.gz
-curl --silent --include --verbose --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
-       --upload-file graphviz-releases.${GV_VERSION}.tar.gz \
-                     "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/graphviz-releases.${GV_VERSION}.tar.gz" | tee response.json
 
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
@@ -69,17 +64,12 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/* \
   # underscore
   dst=$(printf '%s' "${src##*/}" | sed 's/[^a-zA-Z0-9\.\-_]/_/g')
 
-  # Gitlab 403-rejects uploaded rpms
-  if [ "${dst##*.}" = "rpm" ]; then
-    xz -9 "${src}"
-    src=${src}.xz
-    dst=${dst}.xz
-  fi
-
   curl --silent --include --verbose \
        --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
        --upload-file "${src}" \
                      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
-  # FIXME
-  #jq --exit-status '.ok' response.json
+
+  # check the upload succeeded
+  jq --exit-status '.message' response.json | grep -q '201 Created'
+
 done
