@@ -48,9 +48,9 @@ fi
 # FIXME
 export GV_VERSION=1.0.0
 
-chmod -R o-rwx Packages
-chmod -R g-wx Packages
-chmod -R g+X Packages
+# remove executable bit that causes Gitlab's upload functionality to reject
+# files
+find Packages -type f -exec chmod a-x "{}" \;
 
 for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/*; do
 
