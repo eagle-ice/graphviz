@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# steps for uploading build assets for a release (see ../.gitlab-ci.yml)
+# steps for deploying a new release (see ../.gitlab-ci.yml)
 #
 # This is based on Gitlab’s generic package example,
 # https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-assets-as-generic-package
@@ -26,12 +26,17 @@ if [ -e /etc/os-release ]; then
 fi
 
 # install dependencies
-env DEBIAN_FRONTEND=noninteractive apt-get update -y
-for dep in curl jq; do
-  if ! which ${dep} &>/dev/null; then
-    env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y ${dep}
-  fi
-done
+if ! which curl &>/dev/null; then
+  env DEBIAN_FRONTEND=noninteractive apt-get update -y
+  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
+fi
+
+# bail out early if we do not have release-cli to avoid uploading assets that
+# become orphaned when we fail to create the release
+if ! which release-cli &>/dev/null; then
+  printf 'release-cli not found\n' >&2
+  exit 1
+fi
 
 export GV_VERSION=$(cat VERSION)
 export COLLECTION=$(cat COLLECTION)
@@ -46,11 +51,14 @@ if ! egrep -q '^\d+\.\d+\.\d+$' VERSION; then
 fi
 
 # FIXME
-export GV_VERSION=1.0.0
+export GV_VERSION=0.0.1
 
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
 chmod -R g+X Packages
+
+# a release creation command we will build up incrementally
+printf 'release-cli create "--name=%s" "--description=See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)."' "${GV_VERSION}" >make-release.sh
 
 # FIXME
 #md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
@@ -70,6 +78,14 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/* \
                      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/graphviz-releases/${GV_VERSION}/${dst}" | tee response.json
 
   # check the upload succeeded
-  tail -1 response.json | jq --exit-status '.message' | grep -q '201 Created'
+  tail -1 response.json | grep -q '^\s*{\s*"message"\s*:\s*"201 Created"\s*}\s*$'
+
+  # accumulate this file into the release creation command
+  printf '--assets-link "{\"name\":\"%s\",\"url\":\"%s/projects/%s/packages/generic/graphviz-releases/%s/%s\"}" ' \
+    "${src##*/}" "${CI_API_V4_URL}" "${CI_PROJECT_ID}" "${GV_VERSION}" "${dst}" >>make-release.sh
 
 done
+printf '\n' >>make-release.sh
+
+# create the release
+. make-release.sh
