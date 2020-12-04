@@ -58,7 +58,7 @@ if ! egrep -q '^\d+\.\d+\.\d+$' VERSION; then
 fi
 
 # FIXME
-export GV_VERSION=0.0.2
+export GV_VERSION=0.0.3
 
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
@@ -95,4 +95,5 @@ done
 printf '\n' >>make-release.sh
 
 # create the release
+cat make-release.sh
 . make-release.sh
