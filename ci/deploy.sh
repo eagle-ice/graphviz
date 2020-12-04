@@ -28,7 +28,7 @@ fi
 # install dependencies
 if ! which curl &>/dev/null; then
   if which apk &>/dev/null; then
-    apk add --update-cache bash
+    apk add --update-cache curl
   elif which apt-get &>/dev/null; then
     env DEBIAN_FRONTEND=noninteractive apt-get update -y
     env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
