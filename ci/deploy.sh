@@ -58,7 +58,7 @@ if ! egrep -q '^\d+\.\d+\.\d+$' VERSION; then
 fi
 
 # FIXME
-export GV_VERSION=0.0.3
+export GV_VERSION=0.0.4
 
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
