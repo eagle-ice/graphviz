@@ -65,7 +65,9 @@ chmod -R g-wx Packages
 chmod -R g+X Packages
 
 # a release creation command we will build up incrementally
-printf 'release-cli create --name "%s" --description "See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)." ' "${GV_VERSION}" >make-release.sh
+printf 'release-cli create --name "%s" ' "${GV_VERSION}" >make-release.sh
+printf ' --ref "%s" ' "${CI_COMMIT_SHA}" >>make-release.sh
+printf ' --description "See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)." ' >>make-release.sh
 
 # FIXME
 #md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
