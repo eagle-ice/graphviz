@@ -27,8 +27,15 @@ fi
 
 # install dependencies
 if ! which curl &>/dev/null; then
-  env DEBIAN_FRONTEND=noninteractive apt-get update -y
-  env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
+  if which apk &>/dev/null; then
+    apk add --update-cache bash
+  elif which apt-get &>/dev/null; then
+    env DEBIAN_FRONTEND=noninteractive apt-get update -y
+    env DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y curl
+  else
+    printf 'no supported package manager found\n' >&2
+    exit 1
+  fi
 fi
 
 # bail out early if we do not have release-cli to avoid uploading assets that
