@@ -65,7 +65,7 @@ chmod -R g-wx Packages
 chmod -R g+X Packages
 
 # a release creation command we will build up incrementally
-printf 'release-cli create "--name=%s" "--description=See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)."' "${GV_VERSION}" >make-release.sh
+printf 'release-cli create "--name=%s" "--description=See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)." ' "${GV_VERSION}" >make-release.sh
 
 # FIXME
 #md5sum graphviz-"${GV_VERSION}".tar.gz >graphviz-"${GV_VERSION}".tar.gz.md5
@@ -88,7 +88,7 @@ for src in Packages/"${COLLECTION}"/{fedora,centos}/*/{source,os/*,debug/*}/* \
   tail -1 response.json | grep -q '^\s*{\s*"message"\s*:\s*"201 Created"\s*}\s*$'
 
   # accumulate this file into the release creation command
-  printf '--assets-link "{\"name\":\"%s\",\"url\":\"%s/projects/%s/packages/generic/graphviz-releases/%s/%s\"}" ' \
+  printf ' --assets-link "{\"name\":\"%s\",\"url\":\"%s/projects/%s/packages/generic/graphviz-releases/%s/%s\"}" ' \
     "${src##*/}" "${CI_API_V4_URL}" "${CI_PROJECT_ID}" "${GV_VERSION}" "${dst}" >>make-release.sh
 
 done
