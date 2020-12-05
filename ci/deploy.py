@@ -8,7 +8,6 @@ https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-as
 '''
 
 import argparse
-import datetime
 import hashlib
 import json
 import logging
@@ -106,9 +105,7 @@ def main(args: [str]) -> int:
   # the generic package version has to be \d+.\d+.\d+ but it does not need to
   # correspond to the release version (which may not conform to this pattern if
   # this is a dev release), so generate a compliant generic package version
-  now = datetime.datetime.utcnow()
-  package_version = f'{now.year}.{now.month:02}{now.day:02}.{now.hour:02}' \
-    f'{now.minute:02}{now.second:02}{now.microsecond:06}'
+  package_version = f'0.0.{int(os.environ["CI_COMMIT_SHA"], 16)}'
   log.info(f'using generated generic package version {package_version}')
 
   # retrieve version name left by prior CI tasks
