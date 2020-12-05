@@ -56,7 +56,7 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     '--upload-file', path, target], universal_newlines=True)
   log.info('Curl response:')
   for i, line in enumerate(output.split('\n')):
-    log.info(f' {i + i}: {line[:-1]}')
+    log.info(f' {(i + 1):2}: {line}')
 
   resp = output.split('\n')[-1]
   if json.loads(resp)['message'] != '201 Created':
