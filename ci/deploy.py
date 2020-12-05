@@ -19,7 +19,6 @@ import stat
 import subprocess
 import sys
 from typing import Optional
-import urllib.request
 
 log = None
 
@@ -47,14 +46,21 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
   }
 
   log.info(f'uploading {path} to {target}')
-  with open(path, 'rb') as f:
-    req = urllib.request.Request(target, f, headers)
-    with urllib.request.urlopen(req) as resp:
-      outcome = resp.read().decode('utf-8')
-  log.info(f'response: {outcome}')
+  # calling Curl is not the cleanest way to achieve this, but Curl takes care of
+  # encodings, headers and part splitting for us
+  output = subprocess.check_output(['curl',
+    '--silent',  # no progress bar
+    '--include', # include HTTP response headers in output
+    '--verbose', # more connection details
+    '--header', f'JOB-TOKEN: {os.environ["CI_JOB_TOKEN"]}',
+    '--upload-file', path, target], universal_newlines=True)
+  log.info('Curl response:')
+  for i, line in enumerate(output.split('\n')):
+    log.info(f' {i + i}: {line[:-1]}')
 
-  if json.loads(outcome)['message'] != '201 Created':
-    raise Exception(f'upload failed: {outcome}')
+  resp = output.split('\n')[-1]
+  if json.loads(resp)['message'] != '201 Created':
+    raise Exception(f'upload failed: {resp}')
 
   return target
 

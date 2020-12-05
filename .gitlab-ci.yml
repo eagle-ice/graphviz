@@ -564,9 +564,10 @@ deployment:
     except:
         - tags
     before_script:
+        - apk add --update-cache curl
         - apk add --update-cache python3
     # FIXME: remove --version
-    script: python3 ci/deploy.py --verbose --version 0.0.10
+    script: python3 ci/deploy.py --verbose --version 0.0.11
     # FIXME
     # do not run this job for MRs, developer’s forks, etc.
     #only:
