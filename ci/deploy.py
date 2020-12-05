@@ -96,12 +96,6 @@ def main(args: [str]) -> int:
       log.info('/etc/os-release:')
       for i, line in enumerate(f):
         log.info(f' {i + 1}: {line[:-1]}')
-  log.info(f'ulimit -a: {subprocess.check_output(["ulimit", "-a"])}')
-
-  # due to the number of release assets, the final call to release-cli exceeds
-  # the default maximum command line argument limit, so expand this
-  log.info('increasing stack size limit')
-  subprocess.check_call(['ulimit', '-s', str(1 << 16)])
 
   # bail out early if we do not have release-cli to avoid uploading assets that
   # become orphaned when we fail to create the release
