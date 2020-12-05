@@ -8,6 +8,7 @@ https://gitlab.com/gitlab-org/release-cli/-/tree/master/docs/examples/release-as
 '''
 
 import argparse
+import datetime
 import hashlib
 import json
 import logging
@@ -44,7 +45,7 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
 
   log.info(f'uploading {path} to {target}')
   with open(path, 'rb') as f:
-    req = urllib.request.Request(target, f, headers)
+    req = urllib.request.Request(target, data=f, headers=headers)
     with urllib.request.urlopen(req) as resp:
       outcome = resp.read().decode('utf-8')
   log.info(f'response: {outcome}')
@@ -84,7 +85,7 @@ def main(args: [str]) -> int:
     with open('/etc/os-release') as f:
       log.info('/etc/os-release:')
       for i, line in enumerate(f):
-        log.info(f' {i + 1}:{line[:-1]}')
+        log.info(f' {i + 1}: {line[:-1]}')
 
   # bail out early if we do not have release-cli to avoid uploading assets that
   # become orphaned when we fail to create the release
@@ -92,10 +93,19 @@ def main(args: [str]) -> int:
     log.error('release-cli not found')
     return -1
 
+  # the generic package version has to be \d+.\d+.\d+ but it does not need to
+  # correspond to the release version (which may not conform to this pattern if
+  # this is a dev release), so generate a compliant generic package version
+  now = datetime.datetime.utcnow()
+  package_version = f'{now.year}.{now.month:02}{now.day:02}.{now.hour:02}' \
+    f'{now.minute:02}{now.second:02}{now.microsecond:06}'
+  log.info(f'using generated generic package version {package_version}')
+
   # retrieve version name left by prior CI tasks
   log.info('reading VERSION')
   with open('VERSION') as f:
     gv_version = f.read().strip()
+  log.info(f'VERSION == {gv_version}')
 
   tarball = f'graphviz-{gv_version}.tar.gz'
   if not os.path.exists(tarball):
@@ -112,8 +122,8 @@ def main(args: [str]) -> int:
   # list of assets we have uploaded
   assets: [str] = []
 
-  assets += upload(options.version, tarball)
-  assets += upload(options.version, checksum)
+  assets += upload(package_version, tarball)
+  assets += upload(package_version, checksum)
 
   for stem, _, leaves in os.walk('Packages'):
     for leaf in leaves:
@@ -125,7 +135,7 @@ def main(args: [str]) -> int:
       # fixup permissions, o-rwx g-wx
       os.chmod(path, mode & ~stat.S_IRWXO & ~stat.S_IWGRP & ~stat.S_IXGRP)
 
-      assets += upload(options.version, path, path[len('Packages/'):])
+      assets += upload(package_version, path, path[len('Packages/'):])
 
   # construct a command to create the release itself
   cmd = ['release-cli', 'create', '--name', options.version, '--tag-name',
