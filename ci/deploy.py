@@ -106,7 +106,8 @@ def main(args: [str]) -> int:
   log.info(f'MD5 summing {tarball}')
   checksum = f'{tarball}.md5'
   with open(checksum, 'wt') as f:
-    f.write(f'{hashlib.md5(tarball).hexdigest()}  {tarball}\n')
+    with open(tarball, 'rb') as data:
+      f.write(f'{hashlib.md5(data.read()).hexdigest()}  {tarball}\n')
 
   # list of assets we have uploaded
   assets: [str] = []
