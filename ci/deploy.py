@@ -41,11 +41,14 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     f'{os.environ["CI_PROJECT_ID"]}/packages/generic/graphviz-releases/' \
     f'{version}/{safe}'
 
-  headers = { 'JOB-TOKEN':os.environ["CI_JOB_TOKEN"] }
+  headers = {
+    'Content-Length':str(os.stat(path).st_size),
+    'JOB-TOKEN':os.environ["CI_JOB_TOKEN"],
+  }
 
   log.info(f'uploading {path} to {target}')
   with open(path, 'rb') as f:
-    req = urllib.request.Request(target, data=f, headers=headers)
+    req = urllib.request.Request(target, f, headers)
     with urllib.request.urlopen(req) as resp:
       outcome = resp.read().decode('utf-8')
   log.info(f'response: {outcome}')
