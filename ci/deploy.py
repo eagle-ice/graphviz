@@ -132,8 +132,8 @@ def main(args: [str]) -> int:
   # list of assets we have uploaded
   assets: [str] = []
 
-  assets += upload(package_version, tarball)
-  assets += upload(package_version, checksum)
+  assets.append(upload(package_version, tarball))
+  assets.append(upload(package_version, checksum))
 
   for stem, _, leaves in os.walk('Packages'):
     for leaf in leaves:
@@ -145,7 +145,7 @@ def main(args: [str]) -> int:
       # fixup permissions, o-rwx g-wx
       os.chmod(path, mode & ~stat.S_IRWXO & ~stat.S_IWGRP & ~stat.S_IXGRP)
 
-      assets += upload(package_version, path, path[len('Packages/'):])
+      assets.append(upload(package_version, path, path[len('Packages/'):]))
 
   # construct a command to create the release itself
   cmd = ['release-cli', 'create', '--name', options.version, '--tag-name',
