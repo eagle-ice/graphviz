@@ -53,7 +53,8 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     '--include', # include HTTP response headers in output
     '--verbose', # more connection details
     '--header', f'JOB-TOKEN: {os.environ["CI_JOB_TOKEN"]}',
-    '--upload-file', path, target], universal_newlines=True)
+    '--upload-file', path, target], stderr=subprocess.STDOUT,
+    universal_newlines=True)
   log.info('Curl response:')
   for i, line in enumerate(output.split('\n')):
     log.info(f' {(i + 1):2}: {line}')
