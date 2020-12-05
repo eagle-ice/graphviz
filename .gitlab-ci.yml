@@ -566,14 +566,15 @@ deployment:
     before_script:
         - apk add --update-cache curl
         - apk add --update-cache python3
+    script:
         # due to the number of release assets, the final call to release-cli
         # exceeds the default maximum command line argument limit, so expand
         # this
         - ulimit -s 65536
         # echo updated limits into the log
         - ulimit -a
-    # FIXME: remove --version
-    script: python3 ci/deploy.py --verbose --version 0.0.13
+        # FIXME: remove --version
+        - python3 ci/deploy.py --verbose --version 0.0.13
     # FIXME
     # do not run this job for MRs, developer’s forks, etc.
     #only:
