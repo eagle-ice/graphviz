@@ -58,7 +58,7 @@ if ! egrep -q '^\d+\.\d+\.\d+$' VERSION; then
 fi
 
 # FIXME
-export GV_VERSION=0.0.5
+export GV_VERSION=0.0.6
 
 chmod -R o-rwx Packages
 chmod -R g-wx Packages
@@ -66,7 +66,7 @@ chmod -R g+X Packages
 
 # a release creation command we will build up incrementally
 printf 'release-cli create --name "%s" ' "${GV_VERSION}" >make-release.sh
-printf ' --ref "%s" ' "${CI_COMMIT_SHA}" >>make-release.sh
+printf ' --tag-name "%s" ' "${GV_VERSION}" >>make-release.sh
 printf ' --description "See the [CHANGELOG](https://gitlab.com/graphviz/graphviz/-/blob/master/CHANGELOG.md)." ' >>make-release.sh
 
 # FIXME
