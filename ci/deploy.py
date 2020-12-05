@@ -154,7 +154,7 @@ def main(args: [str]) -> int:
   for a in assets:
     name = os.path.basename(a)
     url = a
-    cmd += ['--assetslink', json.dumps({'name':name, 'url':url})]
+    cmd += ['--assets-link', json.dumps({'name':name, 'url':url})]
 
   # create the release
   subprocess.check_call(cmd)
