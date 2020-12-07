@@ -40,11 +40,6 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
     f'{os.environ["CI_PROJECT_ID"]}/packages/generic/graphviz-releases/' \
     f'{version}/{safe}'
 
-  headers = {
-    'Content-Length':str(os.stat(path).st_size),
-    'JOB-TOKEN':os.environ["CI_JOB_TOKEN"],
-  }
-
   log.info(f'uploading {path} to {target}')
   # calling Curl is not the cleanest way to achieve this, but Curl takes care of
   # encodings, headers and part splitting for us
