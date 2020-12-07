@@ -19,6 +19,7 @@ import subprocess
 import sys
 from typing import Optional
 
+# logging output stream, setup in main()
 log = None
 
 def upload(version: str, path: str, name: Optional[str] = None) -> str:
