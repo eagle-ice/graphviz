@@ -77,6 +77,8 @@ def main(args: [str]) -> int:
   parser.add_argument('--version', help='Override version number used to '
     'create a release. Without this, the contents of the VERSION file will be '
     'used.')
+  parser.add_argument('--force', action='store_true', help='Force creating a '
+    'Gitlab release, even if the version number does not match \\d+.\\d+.\\d+.')
   parser.add_argument('--verbose', action='store_true', help='Print more '
     'diagnostic information.')
   options = parser.parse_args(args[1:])
@@ -143,6 +145,13 @@ def main(args: [str]) -> int:
       os.chmod(path, mode & ~stat.S_IRWXO & ~stat.S_IWGRP & ~stat.S_IXGRP)
 
       assets.append(upload(package_version, path, path[len('Packages/'):]))
+
+  # we only create Gitlab releases for stable version numbers
+  if not options.force:
+    if re.match(r'\d+\.\d+\.\d+', options.version) is None:
+      log.warning(f'skipping release creation because {options.version} is not '
+        'of the form \\d+.\\d+.\\d+')
+      return 0
 
   # construct a command to create the release itself
   cmd = ['release-cli', 'create', '--name', options.version, '--tag-name',
