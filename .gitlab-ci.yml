@@ -568,7 +568,7 @@ deployment:
         - apk add --update-cache python3
     script:
         # FIXME: remove --version
-        - python3 ci/deploy.py --verbose --version 0.0.16
+        - python3 ci/deploy.py --verbose --version 0.0.17
     # FIXME
     # do not run this job for MRs, developer’s forks, etc.
     #only:

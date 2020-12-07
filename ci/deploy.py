@@ -43,18 +43,19 @@ def upload(version: str, path: str, name: Optional[str] = None) -> str:
   log.info(f'uploading {path} to {target}')
   # calling Curl is not the cleanest way to achieve this, but Curl takes care of
   # encodings, headers and part splitting for us
-  output = subprocess.check_output(['curl',
+  proc = subprocess.run(['curl',
     '--silent',  # no progress bar
     '--include', # include HTTP response headers in output
     '--verbose', # more connection details
     '--header', f'JOB-TOKEN: {os.environ["CI_JOB_TOKEN"]}',
-    '--upload-file', path, target], stderr=subprocess.STDOUT,
-    universal_newlines=True)
+    '--upload-file', path, target], stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT, universal_newlines=True)
   log.info('Curl response:')
-  for i, line in enumerate(output.split('\n')):
+  for i, line in enumerate(proc.stdout.split('\n')):
     log.info(f' {(i + 1):3}: {line}')
+  proc.check_returncode()
 
-  resp = output.split('\n')[-1]
+  resp = proc.stdout.split('\n')[-1]
   if json.loads(resp)['message'] != '201 Created':
     raise Exception(f'upload failed: {resp}')
 
