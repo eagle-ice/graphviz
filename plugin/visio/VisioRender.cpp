@@ -156,8 +156,8 @@ namespace Visio
 		
 			/* output subshapes */
 			gvputs(job, "<Shapes>\n");
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-				PrintInnerShape(job, *nextGraphic, outerShapeId, outerBounds);
+			for (const Graphic *nextGraphic : _graphics)
+				PrintInnerShape(job, nextGraphic, outerShapeId, outerBounds);
 			gvputs(job, "</Shapes>\n");
 				
 			gvputs(job, "</Shape>\n");
@@ -190,7 +190,7 @@ namespace Visio
 			
 			/* output first connectable shape as an edge shape, all else as regular outer shapes */
 			bool firstConnector = true;
-			for (Graphics::const_iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
+			for (const Graphic *nextGraphic : _graphics)
 				if (firstConnector && PrintEdgeShape(job,
 					_graphics[0],
 					beginId == _nodeIds.end() ? 0 : beginId->second,
@@ -198,7 +198,7 @@ namespace Visio
 					EDGE_TYPE(agroot(edge))))
 					firstConnector = false;
 				else
-					PrintOuterShape(job, *nextGraphic);
+					PrintOuterShape(job, nextGraphic);
 
 		}
 		ClearGraphicsAndTexts();
@@ -237,18 +237,18 @@ namespace Visio
 	void Render::ClearGraphicsAndTexts()
 	{
 		/* clear graphics */
-		for (Graphics::iterator nextGraphic = _graphics.begin(), lastGraphic = _graphics.end(); nextGraphic != lastGraphic; ++nextGraphic)
-			delete *nextGraphic;
+		for (const Graphic *nextGraphic : _graphics)
+			delete const_cast<Graphic*>(nextGraphic);
 		_graphics.clear();
 		
 		/* clear texts */
-		for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-			delete *nextText;
+		for (const Text *nextText : _texts)
+			delete const_cast<Text*>(nextText);
 		_texts.clear();
 
 		/* clear hyperlinks */
-		for (Hyperlinks::iterator nextHyperlink = _hyperlinks.begin(), lastHyperlink = _hyperlinks.end(); nextHyperlink != lastHyperlink; ++nextHyperlink)
-			delete *nextHyperlink;
+		for (const Hyperlink *nextHyperlink : _hyperlinks)
+			delete const_cast<Hyperlink*>(nextHyperlink);
 		_hyperlinks.clear();
 	}
 	
@@ -472,8 +472,8 @@ namespace Visio
 		if (_texts.size() > 0)
 		{
 			/* output Para, Char */
-			for (Texts::iterator nextText = _texts.begin(), lastText = _texts.end(); nextText != lastText; ++nextText)
-				(*nextText)->Print(job);
+			for (const Text *nextText : _texts)
+				nextText->Print(job);
 			
 			/* output Text. each run references above Para + Char */
 			gvputs(job, "<Text>");
