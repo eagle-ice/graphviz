@@ -27,7 +27,11 @@ mkdir -p ${DIR}/source
 if [ "${build_system}" = "cmake" ]; then
     mkdir build
     cd build
-    cmake ..
+    if [ "${ID}" = "Darwin" ]; then
+      cmake -G Xcode ..
+    else
+      cmake ..
+    fi
     cmake --build .
     cpack
     cd ..
