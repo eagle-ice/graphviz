@@ -15,16 +15,16 @@
 extern "C" {
 #endif
 
-/*visual studio*/
 #if defined(_WIN32) && !defined(LAB_GAMUT_EXPORTS)
-#define extern __declspec(dllimport)
+#define EXTERN __declspec(dllimport)
+#else
+#define EXTERN /* nothing */
 #endif
-/*end visual studio*/
 
-extern const signed char lab_gamut_data[];
-extern int lab_gamut_data_size;
+EXTERN extern const signed char lab_gamut_data[];
+EXTERN extern int lab_gamut_data_size;
 
-#undef extern
+#undef EXTERN
 
 #ifdef __cplusplus
 }
