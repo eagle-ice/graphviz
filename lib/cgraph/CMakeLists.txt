@@ -10,6 +10,7 @@ add_library(cgraph SHARED
     cghdr.h
     cgraph.h
     strcasecmp.h
+    strdup.h
 
     # Source files
     agerror.c
