@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <cgraph/strdup.h>
 #include <common/macros.h>
 #include <common/const.h>
 #include <xdot/xdot.h>

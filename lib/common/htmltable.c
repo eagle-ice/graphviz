@@ -38,6 +38,7 @@
 #include <common/intset.h>
 #include <cdt/cdt.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 #include <stddef.h>
 
 #define DEFAULT_BORDER    1

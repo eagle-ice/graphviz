@@ -27,6 +27,7 @@
 #include "builddate.h"
 #include <gvpr/gprstate.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/strdup.h>
 #include <common/globals.h>
 #include <ingraphs/ingraphs.h>
 #include <gvpr/compile.h>

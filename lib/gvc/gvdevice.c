@@ -46,6 +46,7 @@ static uint64_t crc;
 #endif /* HAVE_LIBZ */
 
 #include <assert.h>
+#include <cgraph/strdup.h>
 #include <common/const.h>
 #include <common/memory.h>
 #include <gvc/gvplugin_device.h>

@@ -19,6 +19,7 @@
 #include <ast/ast.h>
 #include <ast/sfstr.h>
 #include <ast/error.h>
+#include <cgraph/strdup.h>
 #include <gvpr/parse.h>
 #include <string.h>
 #include <stdlib.h>

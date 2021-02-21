@@ -15,6 +15,7 @@
  * an edge, starting from a list of control points.
  */
 
+#include <cgraph/strdup.h>
 #include <math.h>
 #include <common/render.h>
 

@@ -10,7 +10,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
-
+#include <cgraph/strdup.h>
 #include <common/render.h>
 #include <label/xlabels.h>
 

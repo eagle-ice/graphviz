@@ -12,7 +12,7 @@
 
 #include <glcomp/glcomptexture.h>
 #include <glcomp/glpangofont.h>
-
+#include <cgraph/strdup.h>
 #include <common/memory.h>
 
 #if 0

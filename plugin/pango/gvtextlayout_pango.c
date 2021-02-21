@@ -16,6 +16,7 @@
 #include <string.h>
 #include <gvc/gvplugin_render.h>
 #include <cgraph/agxbuf.h>
+#include <cgraph/strdup.h>
 #include <common/utils.h>
 #include <gvc/gvplugin_textlayout.h>
 

@@ -5,6 +5,7 @@
 #endif
 
 #include <assert.h>
+#include <cgraph/strdup.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>

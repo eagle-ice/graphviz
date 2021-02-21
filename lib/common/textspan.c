@@ -16,6 +16,7 @@
 #include <cdt/cdt.h>
 #include <common/render.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 static double timesFontWidth[] = {
     0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500, 0.2500,	/*          */

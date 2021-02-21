@@ -13,7 +13,7 @@
 #include "config.h"
 
 #include <gvc/gvconfig.h>
-
+#include <cgraph/strdup.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include	<string.h>

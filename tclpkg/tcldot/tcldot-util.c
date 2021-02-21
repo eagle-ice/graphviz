@@ -13,6 +13,7 @@
 
 #include "tcldot.h"
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 size_t Tcldot_string_writer(GVJ_t *job, const char *s, size_t len)
 {

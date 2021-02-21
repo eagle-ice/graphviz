@@ -19,6 +19,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #endif
+#include <cgraph/strdup.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkgl.h>
 #include <glade/glade.h>

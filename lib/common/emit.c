@@ -21,6 +21,7 @@
 #include <locale.h>
 #include <common/render.h>
 #include <cgraph/agxbuf.h>
+#include <cgraph/strdup.h>
 #include <common/htmltable.h>
 #include <gvc/gvc.h>
 #include <cdt/cdt.h>

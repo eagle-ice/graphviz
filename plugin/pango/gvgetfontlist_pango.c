@@ -17,6 +17,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 /* FIXME - the following declaration should be removed
  * when configure is coordinated with flags passed to the

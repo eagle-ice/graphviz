@@ -12,6 +12,7 @@
 
 #include "btree.h"
 
+#include <cgraph/strdup.h>
 #include <common/memory.h>
 #include <string.h>
 

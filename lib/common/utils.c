@@ -18,6 +18,7 @@
 #include <math.h>
 #include <gvc/gvc.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 #ifdef _WIN32
 #define R_OK 4

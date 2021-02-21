@@ -20,6 +20,7 @@
 #include <common/memory.h>
 #include <common/const.h>
 #include <cgraph/agxbuf.h>
+#include <cgraph/strdup.h>
 #include <assert.h>
 #include <ctype.h>
 #include  "frmobjectui.h"

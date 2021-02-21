@@ -10,6 +10,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <cgraph/strdup.h>
 #include <string.h>
 #include <stdlib.h>
 #include <gvc/gvc.h>

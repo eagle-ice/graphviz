@@ -16,6 +16,7 @@
 #include <cdt/cdt.h>
 #include <ctype.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 #include <limits.h>
 
 #ifdef HAVE_EXPAT

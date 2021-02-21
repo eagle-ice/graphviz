@@ -14,6 +14,7 @@
 #include <glcomp/glcompfont.h>
 #include <glcomp/glcompset.h>
 #include <glcomp/glutils.h>
+#include <cgraph/strdup.h>
 #include <common/memory.h>
 
 glCompLabel *glCompLabelNew(glCompObj * par, GLfloat x, GLfloat y,

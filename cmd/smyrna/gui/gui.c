@@ -20,7 +20,7 @@
 #include "viewport.h"
 #include <common/memory.h>
 #include <cgraph/strcasecmp.h>
-
+#include <cgraph/strdup.h>
 
 static char guibuffer[BUFSIZ];	//general purpose buffer
 

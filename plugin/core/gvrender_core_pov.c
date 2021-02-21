@@ -23,7 +23,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-
+#include <cgraph/strdup.h>
 #include <common/macros.h>
 #include <common/const.h>
 

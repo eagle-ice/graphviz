@@ -23,6 +23,7 @@
 #include <common/render.h>
 #include <common/htmltable.h>
 #include <common/htmllex.h>
+#include <cgraph/strdup.h>
 
 extern int htmlparse(void);
 

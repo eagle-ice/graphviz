@@ -25,6 +25,7 @@
 #include <ast/sfstr.h>
 #include "gvprpipe.h"
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 static attr_t *binarySearch(attr_list * l, char *searchKey);
 static int sel_node;

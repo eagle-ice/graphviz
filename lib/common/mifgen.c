@@ -13,6 +13,7 @@
 
 #include <common/render.h>
 #include <cgraph/strcasecmp.h>
+#include <cgraph/strdup.h>
 
 #define	NONE	0
 #define	NODE	1

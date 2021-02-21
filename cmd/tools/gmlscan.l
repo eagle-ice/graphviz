@@ -12,6 +12,7 @@
 %option noinput
 
 %{
+#include <cgraph/strdup.h>
 #include <stdlib.h>
 #include <gml2gv.h>
 #include <gmlparse.h>

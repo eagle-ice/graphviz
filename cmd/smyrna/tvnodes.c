@@ -10,6 +10,7 @@
  * Contributors: Details at https://graphviz.org
  *************************************************************************/
 
+#include <cgraph/strdup.h>
 #include "tvnodes.h"
 #include "viewport.h"
 #include "topviewfuncs.h"

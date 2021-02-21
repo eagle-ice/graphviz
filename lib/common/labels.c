@@ -11,6 +11,7 @@
  *************************************************************************/
 
 #include <cgraph/agxbuf.h>
+#include <cgraph/strdup.h>
 #include <common/render.h>
 #include <common/htmltable.h>
 #include <limits.h>

@@ -11,7 +11,7 @@
  *************************************************************************/
 
 #include "config.h"
-
+#include <cgraph/strdup.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdint.h>

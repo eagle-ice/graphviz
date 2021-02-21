@@ -22,6 +22,7 @@
 #include <gvpr/compile.h>
 #include <assert.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/strdup.h>
 #include <ast/error.h>
 #include <gvpr/actions.h>
 #include <ast/sfstr.h>
