@@ -717,7 +717,7 @@ attr_list *load_attr_list(Agraph_t * g)
     return l;
 }
 
- /**/ static void set_header_text(void)
+static void set_header_text(void)
 {
     int nodeCnt = 0;
     int edgeCnt = 0;
