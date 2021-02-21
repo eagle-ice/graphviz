@@ -20,7 +20,9 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/strdup.h>
 
 #define N_NEW(n,t)       calloc((n),sizeof(t))
 #define NEW(t)           malloc(sizeof(t))
@@ -112,9 +114,7 @@ static void split(char *name)
     if (sfx) {
 	suffix = sfx + 1;
 	size = sfx - name;
-	path = malloc(size + 1);
-	strncpy(path, name, size);
-	*(path + size) = '\0';
+	path = strndup(name, size);
     } else {
 	path = name;
     }

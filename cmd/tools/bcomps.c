@@ -25,6 +25,7 @@
 
 #include <stdlib.h>
 #include <cgraph/cgraph.h>
+#include <cgraph/strdup.h>
 
 typedef struct {
     Agrec_t h;
@@ -320,9 +321,7 @@ static void split(char *name)
     if (sfx) {
 	size = sfx - name;
 	suffix = sfx + 1;
-	path = malloc(size + 1);
-	strncpy(path, name, size);
-	*(path + size) = '\0';
+	path = strndup(name, size);
     } else {
 	path = name;
     }
