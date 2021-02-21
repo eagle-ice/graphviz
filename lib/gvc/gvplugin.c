@@ -91,7 +91,7 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
         *p = '\0';
 
     /* point to the beginning of the linked list of plugins for this api */
-    pnext = &(gvc->apis[api]);
+    pnext = &gvc->apis[api];
 
     /* keep alpha-sorted and insert new duplicates ahead of old */
     while (*pnext) {
@@ -100,7 +100,7 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
             *p = '\0';
         if (strcmp(pins, pnxt) <= 0)
             break;
-        pnext = &((*pnext)->next);
+        pnext = &(*pnext)->next;
     }
 
     /* keep quality sorted within type and insert new duplicates ahead of old */
@@ -112,7 +112,7 @@ boolean gvplugin_install(GVC_t * gvc, api_t api, const char *typestr,
             break;
         if (quality >= (*pnext)->quality)
             break;
-        pnext = &((*pnext)->next);
+        pnext = &(*pnext)->next;
     }
 
     plugin = GNEW(gvplugin_available_t);
@@ -299,8 +299,8 @@ gvplugin_available_t *gvplugin_load(GVC_t * gvc, api_t api, const char *str)
         if (!reqpkg || strcmp(reqpkg, pnext->package->name) == 0) {
             /* found with no packagename constraints, or with required matching packagname */
 
-            if (dep && (apidep != api)) /* load dependency if needed, continue if can't find */
-                if (!(gvplugin_load(gvc, apidep, dep)))
+            if (dep && apidep != api) /* load dependency if needed, continue if can't find */
+                if (!gvplugin_load(gvc, apidep, dep))
                     continue;
             break;
         }

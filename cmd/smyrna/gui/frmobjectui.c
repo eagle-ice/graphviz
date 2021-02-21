@@ -460,7 +460,7 @@ static void set_refresh_filters(ViewInfo * v, int type, char *name)
 	v->refresh.pos = 1;
     if (strcasecmp(name, "color") == 0)
 	v->refresh.color = 1;
-    if ((strcasecmp(name, "size") == 0) && (type == AGNODE))
+    if (strcasecmp(name, "size") == 0 && type == AGNODE)
 	v->refresh.nodesize = 1;
     if (strcasecmp(name, "selected") == 0)
 	v->refresh.selection = 1;
