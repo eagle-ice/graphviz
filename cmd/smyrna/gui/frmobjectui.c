@@ -63,7 +63,6 @@ void free_attr(attr_t * at)
     free(at);
 }
 
-
 attr_t *new_attr(void)
 {
     attr_t *attr = malloc(sizeof(attr_t));
@@ -78,7 +77,6 @@ attr_t *new_attr(void)
     attr->objType[2] = 0;
     return attr;
 }
-
 
 attr_t *new_attr_with_ref(Agsym_t * sym)
 {
@@ -125,8 +123,6 @@ static void reset_attr_list_widgets(attr_list * l)
     }
 }
 
-
-
 static void free_attr_list_widgets(attr_list * l)
 {
     int id;
@@ -134,7 +130,6 @@ static void free_attr_list_widgets(attr_list * l)
 	gtk_object_destroy((GtkObject *) l->fLabels[id]);
     }
 }
-
 
 void free_attr_list(attr_list * l)
 {
@@ -301,11 +296,6 @@ static attr_t *binarySearch(attr_list * l, char *searchKey)
     return NULL;
 }
 
-
-
-
-
-
 static attr_t *pBinarySearch(attr_list * l, char *searchKey)
 {
     int middle, low, high, res;
@@ -328,11 +318,6 @@ static attr_t *pBinarySearch(attr_list * l, char *searchKey)
     return NULL;
 
 }
-
-
-
-
-
 
 void create_filtered_list(char *prefix, attr_list * sl, attr_list * tl)
 {
@@ -808,7 +793,6 @@ static void gvpr_select(char *attr, char *regex_str, int objType)
     set_header_text();
 }
 
-
 _BB void on_attrSearchBtn_clicked(GtkWidget * widget, gpointer user_data)
 {
 
@@ -821,4 +805,3 @@ _BB void on_attrSearchBtn_clicked(GtkWidget * widget, gpointer user_data)
     gvpr_select(attr, regex_str, get_object_type());
 
 }
-
